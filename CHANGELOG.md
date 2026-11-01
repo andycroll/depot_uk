@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.0] - 2026-11-01
 
 ### Added
 - `DepotUk::Cinema.all` and `DepotUk::Cinema.new(id)` for Depot in Lewes, keyed by its Jacro code `'deplew'`, with the address from the website's travel page and coordinates from OpenStreetMap.
