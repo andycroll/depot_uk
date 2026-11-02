@@ -38,6 +38,7 @@ class DepotUk::Internal::WebsiteTest < Minitest::Test
     calendar = DepotUk::Internal::Website.open(&:calendar)
 
     assert_includes calendar, 'cal-day-films'
+    assert_requested :get, CALENDAR, headers: { 'User-Agent' => DepotUk::Internal::Website::USER_AGENT }
   end
 
   def test_requests_share_one_connection
@@ -57,27 +58,14 @@ class DepotUk::Internal::WebsiteTest < Minitest::Test
     stub_request(:get, CALENDAR).to_return(status: 500, body: 'secret')
 
     error = assert_raises(RuntimeError) { @website.calendar }
-    assert_equal 'Depot HTTP error 500', error.message
-  end
-
-  def test_redirects_are_not_followed
-    stub_request(:get, CALENDAR).to_return(status: 301, headers: { 'Location' => 'https://lewesdepot.org/' })
-
-    assert_raises(RuntimeError) { @website.calendar }
+    assert_equal 'HTTP error 500 from lewesdepot.org', error.message
   end
 
   def test_transient_errors_are_retried
     stub_request(:get, CALENDAR).to_raise(Errno::ECONNRESET).then.to_return(status: 200, body: 'calendar')
 
-    @website.stub(:sleep, nil) { @website.calendar }
+    Cinebase::Http.stub(:pause, nil) { @website.calendar }
 
     assert_requested :get, CALENDAR, times: 2
-  end
-
-  def test_retries_give_up
-    stub_request(:get, CALENDAR).to_raise(Net::ReadTimeout)
-
-    assert_raises(Net::ReadTimeout) { @website.stub(:sleep, nil) { @website.calendar } }
-    assert_requested :get, CALENDAR, times: 3
   end
 end

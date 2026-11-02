@@ -6,9 +6,12 @@ module DepotUk
   module Internal
     # Reads the pages of lewesdepot.org that, together, describe every
     # advertised performance: the calendar, the home page's film list and
-    # the access pages.
+    # the access pages, over one kept-alive connection. The site is slow,
+    # so the read timeout is long.
     class Website
-      include Http
+      WEBSITE = 'https://lewesdepot.org'
+      READ_TIMEOUT = 40
+      USER_AGENT = 'Mozilla/5.0 (compatible; depot_uk; +https://github.com/andycroll/depot_uk)'
 
       CALENDAR_PATH = '/whats-on/calendar'
       HOME_PATH = '/'
@@ -34,6 +37,11 @@ module DepotUk
         website.close
       end
 
+      def initialize
+        @http = Cinebase::Http.new(read_timeout: READ_TIMEOUT, headers: { 'User-Agent' => USER_AGENT },
+                                   keep_alive: true)
+      end
+
       # @return [String] the calendar page, every advertised date
       def calendar
         get(CALENDAR_PATH)
@@ -56,6 +64,18 @@ module DepotUk
             variants[id] = (variants[id] || []) | [variant]
           end
         end
+      end
+
+      # Close the connection
+      # @return [nil]
+      def close
+        @http.close
+      end
+
+      private
+
+      def get(path)
+        @http.get(WEBSITE + path)
       end
     end
   end

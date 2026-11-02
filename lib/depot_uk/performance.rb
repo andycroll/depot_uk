@@ -23,8 +23,6 @@ module DepotUk
     #   @option options [Integer] :film_year (nil) year from the film's title
     #   @option options [Time] :starting_at listed start time of the performance
 
-    TIME_ZONE = 'Europe/London'.freeze
-
     # Performances within an inclusive range of showing dates. The calendar
     # holds every advertised date, so any range takes five requests: the
     # calendar, the home page for titles the calendar shortens, and three
@@ -35,7 +33,7 @@ module DepotUk
     # @return [Array<DepotUk::Performance>]
     def self.at(
       cinema_id,
-      from: TZInfo::Timezone.get(TIME_ZONE).now.to_date,
+      from: Cinebase::London.today,
       to: from + 13
     )
       raise ArgumentError, 'to must not precede from' if to < from

@@ -25,7 +25,6 @@ module DepotUk
         # A day and month falls on a different weekday in each of three
         # neighbouring years
         YEARS_AROUND = (-1..1)
-        TIME_ZONE = 'Europe/London'
 
         # @param [String] html the calendar page
         # @param [Date] near a date within a year of the listings, which sets
@@ -70,7 +69,7 @@ module DepotUk
         def performances(buttons, slug:, heading:, date:)
           buttons.scan(PERFORMANCE).map do |id, hour, minute|
             local = Time.utc(date.year, date.month, date.day, hour.to_i, minute.to_i)
-            starting_at = TZInfo::Timezone.get(TIME_ZONE).local_to_utc(local)
+            starting_at = Cinebase::London.utc(local)
             Entry.new(id: id, slug: slug, heading: heading, date: date, starting_at: starting_at)
           end
         end

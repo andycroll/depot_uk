@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.1] - 2026-11-02
+
+### Changed
+- Requests and London times use cinebase 5.8's `Cinebase::Http` and `Cinebase::London`.
+- HTTP errors read "HTTP error 500 from lewesdepot.org" in place of "Depot HTTP error 500".
+
 ## [1.0.0] - 2026-11-01
 
 ### Added
