@@ -56,7 +56,8 @@ class DepotUk::PerformanceTest < Minitest::Test
   def test_summer_times_are_converted_to_utc
     performance = performances_at('deplew').last
 
-    assert_equal 'Royal Ballet and Opera: Romeo & Juliet', performance.film_name
+    assert_equal 'Romeo & Juliet', performance.film_name
+    assert_equal Cinebase::Event.new(name: 'Royal Ballet and Opera'), performance.event
     assert_equal Time.utc(2027, 5, 30, 13, 0), performance.starting_at
     assert_equal %w(arts), performance.variant
   end
@@ -69,8 +70,9 @@ class DepotUk::PerformanceTest < Minitest::Test
 
   def test_shortened_headings_have_full_titles
     assert_equal 'Ghosts: The Possession of Button House', find('40631075').film_name
-    assert_equal 'Exhibition on Screen: Renoir & Love', find('40629079').film_name
-    assert_equal 'Exhibition on Screen: MONET', find('40629077').film_name
+    assert_equal 'Renoir & Love', find('40629079').film_name
+    assert_equal 'Monet', find('40629077').film_name
+    assert_equal Cinebase::Event.new(name: 'Exhibition on Screen'), find('40629077').event
   end
 
   def test_parent_and_baby_screenings
