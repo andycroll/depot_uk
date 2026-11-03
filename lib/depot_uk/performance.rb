@@ -22,6 +22,7 @@ module DepotUk
     #   @option options [String] :film_name name of the film
     #   @option options [Integer] :film_year (nil) year from the film's title
     #   @option options [Time] :starting_at listed start time of the performance
+    #   @option options [String] :title (nil) raw title, for audience variants
 
     # Performances within an inclusive range of showing dates. The calendar
     # holds every advertised date, so any range takes five requests: the

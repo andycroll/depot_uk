@@ -24,8 +24,8 @@ The gem conforms to the API set down in the `cinebase` gem, [andycroll/cinebase]
 
 Performance titles are sanitized as much as possible, removing the parent
 and baby, Knitflicks and See It First prefixes, the Cinecity suffix and
-opera and ballet labels, and naming Royal Ballet and Opera screenings in
-full.
+opera and ballet labels. Royal Ballet and Opera, National Theatre Live
+and Exhibition on Screen series become the performance's `event`.
 
 No token or setup is needed. The website runs WordPress with Jacro's
 plugin, and tickets are sold through Jacro's booking site.

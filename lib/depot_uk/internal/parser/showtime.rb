@@ -44,6 +44,7 @@ module DepotUk
             film_name: TitleSanitizer.new(title).sanitized,
             film_year: Cinebase::TitleSanitizer.film_year(title),
             starting_at: @entry.starting_at,
+            title: title,
             variant: variant
           }
         end

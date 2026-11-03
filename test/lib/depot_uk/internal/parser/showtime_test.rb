@@ -13,7 +13,7 @@ class DepotUk::Internal::Parser::ShowtimeTest < Minitest::Test
   end
 
   def test_shortened_headings_matching_several_titles_use_the_slug
-    assert_equal 'Exhibition on Screen: MONET',
+    assert_equal 'Exhibition on Screen: Monet',
                  to_hash('Exhibition on Screen:...', slug: 'exhibition-on-screen-monet')[:film_name]
   end
 
@@ -27,6 +27,13 @@ class DepotUk::Internal::Parser::ShowtimeTest < Minitest::Test
     assert_equal %w(arts), to_hash('Hadestown: The Musical')[:variant]
     assert_equal %w(arts), to_hash('National Theatre Live: Golden Boy')[:variant]
     assert_equal %w(relaxed kids), to_hash('Sensory Friendly Cinema – Interactive family cinema screenings')[:variant]
+  end
+
+  def test_performances_read_variants_from_the_raw_title
+    performance = DepotUk::Performance.new(to_hash('Relaxed Screening: Fjord').merge(cinema_id: 'deplew', cinema_name: 'Depot'))
+
+    assert_equal 'Fjord', performance.film_name
+    assert_equal %w(relaxed), performance.variant
   end
 
   def test_three_d_titles
