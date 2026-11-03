@@ -48,7 +48,7 @@ class DepotUk::Internal::Parser::ShowtimeTest < Minitest::Test
   end
 
   def test_festival_prefixes
-    assert_equal Cinebase::Festival.new(name: 'UKJFF', year: 2026), to_hash('UKJFF - Fjord')[:festival]
+    assert_equal Cinebase::Festival.new(name: 'UK Jewish Film Festival', year: 2026), to_hash('UKJFF - Fjord')[:festival]
   end
 
   def test_slug
